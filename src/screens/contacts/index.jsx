@@ -18,7 +18,13 @@ const Contacts = () => {
             txn.executeSql(
                 'CREATE Table IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(100), surname VARCHAR(100), phone INTEGER, email VARCHAR(500), address VARSHAR(1000), job VARCHAR(100))',
                 [],
-                (sqlTxn, res) => console.log('tablo oluştu'),
+                (sqlTxn, response) => {
+                    if (response.rows.length > 0)
+                        for (let i = 0; i < response.rows.length; i++) {
+                            let item = response.rows.item(i)
+                            setUsers([...users, item])
+                        }
+                },
                 error => console.log('hata', error.message)
             )
         })
@@ -37,6 +43,19 @@ const Contacts = () => {
             )
         })
     }
+
+
+    const addNewContact = ({ name, surname, phone, email, address, job }) => {
+        db.transaction(txn => {
+            txn.executeSql(
+                'INSERT INTO users (name, surname, phone, email, address, job) VALUES(?,?,?,?,?)',
+                [name, surname, phone, email, address, job],
+                (sqlTxn, response) => console.log('Kişi eklendi'),
+                error => console.log('hata', error.message)
+            )
+        })
+    }
+
 
     useEffect(() => {
         createContactsTable()
