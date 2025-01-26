@@ -1,9 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import defaultScreenStyle from '../../styles/defaultScreenStyle'
 
 const Resents = () => {
     return (
-        <View>
+        <View style={defaultScreenStyle.container}>
             <Text>Resents</Text>
         </View>
     )
