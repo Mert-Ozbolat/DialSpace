@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { CONTACTS, FAVORITES, RESENTS } from '../utils/routes'
+import { CONTACTS, FAVORITES, RESENTS } from '../../utils/routes'
 import { Book1, Clock, Personalcard, Star1 } from 'iconsax-react-native'
 
 const TabBarIcon = ({ name, focused, size, color }) => {

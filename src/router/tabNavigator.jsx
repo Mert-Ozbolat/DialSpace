@@ -3,7 +3,7 @@ import { CONTACTS, FAVORITES, RESENTS } from '../utils/routes';
 import Resents from '../screens/resents';
 import Contacts from '../screens/contacts';
 import Favorites from '../screens/favorites';
-import TabBarIcon from '../components/tabBarIcon';
+import TabBarIcon from '../components/router/tabBarIcon';
 
 const Tab = createBottomTabNavigator();
 
