@@ -8,9 +8,11 @@ import { Colors } from '../../theme/colors'
 import CircleIconButton from '../../components/ui/circleIconButton'
 import { Call, Messages3, Sms } from 'iconsax-react-native'
 
+
 const ContactDetail = ({ route }) => {
 
     const { contact } = route.params
+
     return (
         <View style={defaultScreenStyle.container}>
             <ScrollView>
@@ -27,9 +29,35 @@ const ContactDetail = ({ route }) => {
                 </View>
 
 
-                <View >
+                <View>
                     <View style={styles.infoContainer}>
+                        <Text style={styles.infoTitle}>Name</Text>
+                        <Text style={styles.info}>{contact.name}</Text>
+                    </View>
 
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.infoTitle}>Surname</Text>
+                        <Text style={styles.info}>{contact.surname}</Text>
+                    </View>
+
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.infoTitle}>Phone</Text>
+                        <Text style={styles.info}>{contact.phone}</Text>
+                    </View>
+
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.infoTitle}>Email</Text>
+                        <Text style={styles.info}>{contact.email}</Text>
+                    </View>
+
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.infoTitle}>Adress</Text>
+                        <Text style={styles.info}>{contact?.adress}</Text>
+                    </View>
+
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.infoTitle}>Job</Text>
+                        <Text style={styles.info}>{contact.job}</Text>
                     </View>
                 </View>
 
@@ -63,8 +91,22 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         backgroundColor: Colors.SOFTGRAY,
-        borderRadius: 5,
-        margin: 5
+        borderRadius: 8,
+        margin: 5,
+        height: height * 0.08,
+        justifyContent: 'center',
+        padding: 10
     },
+
+    infoTitle: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: Colors.GRAY
+    },
+    info: {
+        color: Colors.BLACK,
+        fontSize: 16,
+        marginTop: 5
+    }
 })
 
