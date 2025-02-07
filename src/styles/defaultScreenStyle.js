@@ -5,7 +5,7 @@ import { Colors } from "../theme/colors";
 const defaultScreenStyle = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.BLACK
+        backgroundColor: Colors.WHITE
     }
 })
 

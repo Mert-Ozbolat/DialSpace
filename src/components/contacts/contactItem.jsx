@@ -3,14 +3,23 @@ import React from 'react'
 import { convertFullName } from '../../utils/functions'
 import { Colors } from '../../theme/colors'
 import Avatar from './avatar'
+import { useNavigation } from '@react-navigation/native'
+import { CONTACTDETAIL } from '../../utils/routes'
+import { sizes } from '../../utils/constants'
 
 const ContactItem = ({ item }) => {
+
+    const navigation = useNavigation()
+
+
     return (
-        <Pressable style={styles.container}>
+        <Pressable
+            onPress={() => navigation.navigate(CONTACTDETAIL, { contact: item })}
+            style={styles.container}>
 
 
             <View style={styles.avatarContainer}>
-                <Avatar name={item.name} surname={item.surname} />
+                <Avatar name={item.name} surname={item.surname} size={sizes.SMALL} />
             </View>
 
             <View style={styles.infoContainer}>
