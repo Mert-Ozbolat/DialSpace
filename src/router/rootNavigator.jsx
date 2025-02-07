@@ -1,8 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { CONTACTDETAIL, TABNAVIGATOR } from '../utils/routes';
+import { CALLING, CONTACTDETAIL, TABNAVIGATOR } from '../utils/routes';
 import Tabnavigator from './tabNavigator';
 import ContactDetail from '../screens/contacts/contactDetail';
 import { Colors } from '../theme/colors';
+import Calling from '../screens/calling';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,9 @@ function RootNavigator() {
                 headerShown: false
             }} name={TABNAVIGATOR} component={Tabnavigator} />
             <Stack.Screen name={CONTACTDETAIL} component={ContactDetail} />
+            <Stack.Screen options={{
+                headerShown: false
+            }} name={CALLING} component={Calling} />
         </Stack.Navigator>
     );
 }
