@@ -21,6 +21,16 @@ const Contacts = () => {
             );
         });
     };
+    const createResentsTable = () => {
+        db.transaction(txn => {
+            txn.executeSql(
+                'CREATE Table IF NOT EXISTS resents (id INTEGER PRIMARY KEY AUTOINCREMENT, date VARCHAR(100), resent_id INTEGER)',
+                [],
+                (sqlTxn, res) => console.log('resent tablo oluştu'),
+                error => console.log('hata', error.message),
+            );
+        });
+    };
 
     const getContacts = () => {
         db.transaction(txn => {
@@ -54,6 +64,7 @@ const Contacts = () => {
     };
     useEffect(() => {
         createContactsTable();
+        createResentsTable();
         getContacts();
     }, []);
 
