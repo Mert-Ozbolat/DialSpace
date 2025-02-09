@@ -5,6 +5,9 @@ import { Colors } from '../../theme/colors';
 import Avatar from '../contacts/avatar';
 import { convertFullName } from '../../utils/functions';
 import { sizes } from '../../utils/constants';
+import { CallIncoming, CallOutgoing } from 'iconsax-react-native';
+
+
 
 const db = SQLite.openDatabase({
     name: 'ContactsDatabase',
@@ -37,14 +40,12 @@ const ResentItem = ({ item }) => {
     return (
         <Pressable style={styles.container}>
             <View style={styles.avatarContainer}>
-                {user ? (
+                {user && (
                     <Avatar
                         name={user.name ?? ''}
                         surname={user.surname ?? ''}
                         size={sizes.SMALL}
                     />
-                ) : (
-                    <Text>Loading...</Text>
                 )}
             </View>
 
@@ -52,7 +53,16 @@ const ResentItem = ({ item }) => {
                 <Text style={styles.name}>
                     {user ? convertFullName(user.name, user.surname) : 'Bilinmiyor'}
                 </Text>
-                <Text style={styles.job}>{user?.phone ?? 'Telefon yok'}</Text>
+                <Text style={styles.job}>{item?.date}</Text>
+            </View>
+
+            <View style={styles.callTypeContainer}>
+                {
+                    item?.callType == 'incoming' ?
+                        <CallIncoming name="add" size={28} color={Colors.RED} />
+                        :
+                        <CallOutgoing name="add" size={28} color={Colors.GREEN} />
+                }
             </View>
         </Pressable>
     );
@@ -71,7 +81,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '700',
         margin: 5,
-        color: Colors.WHITE,
+        color: Colors.BLACK,
     },
     job: {
         fontSize: 14,
@@ -86,4 +96,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    callTypeContainer: {
+        marginHorizontal: 10
+
+    }
 });
