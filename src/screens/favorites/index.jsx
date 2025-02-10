@@ -29,28 +29,31 @@ const Favorites = () => {
 
 
     const getFavorites = () => {
-        dispatch(setPending(true))
+        dispatch(setPending(true));  // Verileri alırken bekleme durumu eklenebilir
         db.transaction(txn => {
             txn.executeSql(
                 'SELECT * FROM favorites',
                 [],
                 (sqlTxn, response) => {
                     if (response.rows.length > 0) {
-                        let users = []
+                        let users = [];
                         for (let i = 0; i < response.rows.length; i++) {
                             let item = response.rows.item(i);
-                            users.push(item)
+                            users.push(item);
                         }
+                        console.log('Favoriler:', users);
                         dispatch(setFavorites(users));
                     }
+                    dispatch(setPending(false));
                 },
                 error => {
-                    error => console.log('hata', error.message);
-                    dispatch(setPending(false))
+                    console.log('Hata:', error.message);
+                    dispatch(setPending(false));
                 }
             );
         });
     };
+
 
 
     useEffect(() => {
@@ -62,19 +65,21 @@ const Favorites = () => {
 
 
     return (
-        <View style={defaultScreenStyle.container} >
+        <View style={defaultScreenStyle.container}>
             <FlatList
                 ListEmptyComponent={<Text>Henuz kayıt yok</Text>}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item?.id?.toString()}
                 data={favorites}
-                renderItem={({ item }) =>
+                renderItem={({ item }) => (
                     <View>
                         <Text>{item.name} {item.surname}</Text>
                         <Text>{item.phone}</Text>
-                    </View>}
+                    </View>
+                )}
             />
         </View>
-    )
+    );
+
 }
 
 export default Favorites
