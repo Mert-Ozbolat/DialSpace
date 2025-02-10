@@ -8,9 +8,9 @@ import { Colors } from '../../theme/colors'
 import CircleIconButton from '../../components/ui/circleIconButton'
 import { Call, Messages3, Sms } from 'iconsax-react-native'
 import { CALLING } from './../../utils/routes';
-import SQLite from 'react-native-sqlite-storage';
 import { setContacts, setPending } from '../../store/slice/contactSlice'
 import { useDispatch } from 'react-redux'
+import SQLite from 'react-native-sqlite-storage';
 
 const db = SQLite.openDatabase({
     name: 'ContactsDatabase',

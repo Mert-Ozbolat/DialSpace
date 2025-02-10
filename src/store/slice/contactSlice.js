@@ -16,7 +16,6 @@ const contactSlice = createSlice({
         },
         setPending: (state, action) => {
             state.pending = action.payload;
-
         },
     },
 

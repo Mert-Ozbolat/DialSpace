@@ -1,5 +1,6 @@
 export const CONTACTS = 'Kişiler'
 export const FAVORITES = 'Favoriler'
+export const UPDATECONTACT = 'Update Contact'
 export const RESENTS = 'Aramalar'
 export const CONTACTDETAIL = 'Detail'
 export const CALLING = 'Calling'

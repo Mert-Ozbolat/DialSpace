@@ -28,6 +28,7 @@ const Contacts = () => {
             );
         });
     };
+
     const createResentsTable = () => {
         db.transaction(txn => {
             txn.executeSql(
