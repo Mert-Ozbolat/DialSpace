@@ -1,16 +1,22 @@
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import SQLite from 'react-native-sqlite-storage';
 import { Add } from 'iconsax-react-native';
 import defaultScreenStyle from '../../styles/defaultScreenStyle';
 import ContactItem from '../../components/contacts/contactItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { setContacts, setPending } from '../../store/slice/contactSlice';
+import { Colors } from '../../theme/colors';
+
 
 const db = SQLite.openDatabase({
     name: 'ContactsDatabase',
 });
 
 const Contacts = () => {
-    const [users, setUsers] = useState([]);
+
+    const { contacts, pending } = useSelector(state => state.contacts)
+    const dispatch = useDispatch()
     const createContactsTable = () => {
         db.transaction(txn => {
             txn.executeSql(
@@ -33,6 +39,7 @@ const Contacts = () => {
     };
 
     const getContacts = () => {
+        dispatch(setPending(true))
         db.transaction(txn => {
             txn.executeSql(
                 'SELECT * FROM users',
@@ -44,10 +51,13 @@ const Contacts = () => {
                             let item = response.rows.item(i);
                             users.push(item)
                         }
-                        setUsers(users);
+                        dispatch(setContacts(users));
                     }
                 },
-                error => console.log('hata', error.message),
+                error => {
+                    error => console.log('hata', error.message);
+                    dispatch(setPending(false))
+                }
             );
         });
     };
@@ -70,31 +80,16 @@ const Contacts = () => {
 
     return (
         <View style={defaultScreenStyle.container}>
-            <FlatList
-                data={users}
-                renderItem={({ item }) => <ContactItem item={item} />}
-            />
-            <TouchableOpacity
-                onPress={() =>
-                    addNewContact(
-                        'Meryem',
-                        'Uludagli',
-                        '075567675',
-                        'meryemuludagli@gmail.com',
-                        'Cyprus',
-                        'Software Developer',
-                    )
-                }
-                style={{
-                    position: 'absolute',
-                    right: 20,
-                    bottom: 20,
-                    backgroundColor: 'white',
-                    padding: 20,
-                    borderRadius: 100,
-                }}>
-                <Add name="add" size={30} color="black" />
-            </TouchableOpacity>
+            {
+                pending ?
+                    <ActivityIndicator color={Colors.GRAY} />
+                    :
+                    <FlatList
+                        ListEmptyComponent={<Text>Henuz kayıt yok</Text>}
+                        data={contacts}
+                        renderItem={({ item }) => <ContactItem item={item} />}
+                    />
+            }
         </View>
     );
 };
