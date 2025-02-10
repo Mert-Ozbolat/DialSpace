@@ -68,12 +68,12 @@ const AddContact = () => {
             <ScrollView>
                 <Formik
                     initialValues={{
-                        name: 'Mert',
-                        surname: 'Ozbolat',
-                        email: 'mert008@gmail.com',
-                        phone: '0533 821 54 66',
-                        address: 'Cyprus',
-                        job: 'Software Developer',
+                        name: '',
+                        surname: '',
+                        email: '',
+                        phone: '',
+                        address: '',
+                        job: '',
 
                     }}
                     onSubmit={values => addNewContact(values)}

@@ -12,9 +12,6 @@ import { deleteContact } from '../store/actions/contactActions';
 
 const Stack = createNativeStackNavigator();
 
-
-
-
 function RootNavigator() {
 
     const dispatch = useDispatch();
@@ -34,7 +31,7 @@ function RootNavigator() {
                     headerRight: () => (
                         <View style={{ flexDirection: 'row' }}>
                             <Pressable
-                                onPress={() => dispatch(deleteContact(route.params))}
+                                onPress={() => dispatch(deleteContact(route.params.contact.id))}
                                 style={{ marginRight: 20 }}>
                                 <Trash name="add" color={Colors.RED} size={25} />
                             </Pressable>

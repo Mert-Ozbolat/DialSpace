@@ -1,35 +1,39 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import SQLite from 'react-native-sqlite-storage';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
+const db = SQLite.openDatabase(
+    {
+        name: 'ContactsDatabase',
+        location: 'default',
+    },
+    () => console.log('Veritabanı açıldı!'),
+    error => console.log('Veritabanı açılırken hata oluştu:', error),
+);
 
-
-
-const db = SQLite.openDatabase({
-    name: 'ContactsDatabase',
-});
-
-const deleteContact = createAsyncThunk("contacts/deleteContact", async (contact_id) => {
-    try {
-        db.transaction(txn => {
-            txn.executeSql(
-                `DELETE * FROM users WHERE id=${contact_id}`,
-                [],
-                (sqlTxn, response) => {
-                    if (response.rows.length > 0) {
-                        for (let i = 0; i < response.rows.length; i++) {
-                            let item = response.rows.item(i);
-                            console.log(item)
-                        }
-                    }
-                },
-                error => console.log('hata', error.message),
-            );
+const deleteContact = createAsyncThunk(
+    'contacts/deleteContact',
+    async (contact_id, { rejectWithValue }) => {
+        return new Promise((resolve, reject) => {
+            try {
+                db.transaction(txn => {
+                    txn.executeSql(
+                        'DELETE FROM users WHERE id = ?',
+                        [contact_id],
+                        (sqlTxn, response) => {
+                            console.log('Silme işlemi başarılı');
+                            resolve(true);
+                        },
+                        error => {
+                            console.log('Hata:', error.message);
+                            rejectWithValue(error.message);
+                        },
+                    );
+                });
+            } catch (error) {
+                rejectWithValue(error.message);
+            }
         });
-    } catch (error) {
-        console.log('hata', error.message)
-    }
-})
+    },
+);
 
-
-
-export { deleteContact }
+export { deleteContact };

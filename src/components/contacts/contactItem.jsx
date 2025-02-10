@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '700',
         margin: 5,
-        color: Colors.WHITE
+        color: Colors.BLACK
     },
     job: {
         fontSize: 14,
