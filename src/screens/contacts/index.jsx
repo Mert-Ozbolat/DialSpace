@@ -1,7 +1,6 @@
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import SQLite from 'react-native-sqlite-storage';
-import { Add } from 'iconsax-react-native';
 import defaultScreenStyle from '../../styles/defaultScreenStyle';
 import ContactItem from '../../components/contacts/contactItem';
 import { useDispatch, useSelector } from 'react-redux';

@@ -1,10 +1,11 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import defaultScreenStyle from '../../styles/defaultScreenStyle'
 import { Formik } from 'formik';
 import { Input, Button } from '@ui-kitten/components';
 import { newContactSchema } from '../../utils/schemas';
 import SQLite from 'react-native-sqlite-storage';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
@@ -14,6 +15,33 @@ const db = SQLite.openDatabase({
 
 
 const AddContact = () => {
+
+    const { contacts, pending } = useSelector(state => state.contacts)
+    const dispatch = useDispatch()
+
+    const getContacts = () => {
+        dispatch(setPending(true))
+        db.transaction(txn => {
+            txn.executeSql(
+                'SELECT * FROM users',
+                [],
+                (sqlTxn, response) => {
+                    if (response.rows.length > 0) {
+                        let users = []
+                        for (let i = 0; i < response.rows.length; i++) {
+                            let item = response.rows.item(i);
+                            users.push(item)
+                        }
+                        dispatch(setContacts(users));
+                    }
+                },
+                error => {
+                    error => console.log('hata', error.message);
+                    dispatch(setPending(false))
+                }
+            );
+        });
+    };
 
 
 
@@ -29,9 +57,11 @@ const AddContact = () => {
         });
     };
 
-
-
-
+    useEffect(() => {
+        return () => {
+            getContacts()
+        }
+    }, [])
 
     return (
         <View style={defaultScreenStyle.container}>

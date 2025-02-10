@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { deleteContact } from "../actions/contactActions";
 
 const initialState = {
     contacts: [],
@@ -18,6 +19,13 @@ const contactSlice = createSlice({
 
         },
     },
+
+    extraReducers: (builder) => {
+        builder
+            .addCase(deleteContact.pending, state => { })
+            .addCase(deleteContact.fulfilled, state => { })
+            .addCase(deleteContact.rejected, state => { })
+    }
 });
 export const { setContacts, setPending } = contactSlice.actions
 export default contactSlice.reducer

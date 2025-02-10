@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     fullName: {
         fontSize: 18,
         fontWeight: '700',
+        color: Colors.BLACK
     },
     job: {
         color: Colors.GRAY,
