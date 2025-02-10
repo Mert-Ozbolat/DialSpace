@@ -17,6 +17,8 @@ const Contacts = () => {
 
     const { contacts, pending } = useSelector(state => state.contacts)
     const dispatch = useDispatch()
+
+
     const createContactsTable = () => {
         db.transaction(txn => {
             txn.executeSql(
@@ -61,17 +63,7 @@ const Contacts = () => {
             );
         });
     };
-    const addNewContact = (name, surname, phone, email, address, job) => {
-        db.transaction(txn => {
-            txn.executeSql(
-                'INSERT INTO users(name,surname,phone,email,address,job) VALUES (?,?,?,?,?,?)',
-                [name, surname, phone, email, address, job],
-                (sqlTxn, response) => console.log('kisi eklendi'),
 
-                error => console.log('hata', error.message),
-            );
-        });
-    };
     useEffect(() => {
         createContactsTable();
         createResentsTable();

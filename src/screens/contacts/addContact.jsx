@@ -1,25 +1,139 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import defaultScreenStyle from '../../styles/defaultScreenStyle'
 import { Formik } from 'formik';
+import { Input, Button } from '@ui-kitten/components';
+import { newContactSchema } from '../../utils/schemas';
+import SQLite from 'react-native-sqlite-storage';
+
+
+
+const db = SQLite.openDatabase({
+    name: 'ContactsDatabase',
+});
 
 
 const AddContact = () => {
+
+
+
+    const addNewContact = (values) => {
+        db.transaction(txn => {
+            txn.executeSql(
+                'INSERT INTO users(name,surname,phone,email,address,job) VALUES (?,?,?,?,?,?)',
+                [values.name, values.surname, values.phone, values.email, values.address, values.job],
+                (sqlTxn, response) => console.log('kisi eklendi'),
+
+                error => console.log('hata', error.message),
+            );
+        });
+    };
+
+
+
+
+
     return (
         <View style={defaultScreenStyle.container}>
             <ScrollView>
                 <Formik
-                    initialValues={{ email: '' }}
-                    onSubmit={values => console.log(values)}
+                    initialValues={{
+                        name: 'Mert',
+                        surname: 'Ozbolat',
+                        email: 'mert008@gmail.com',
+                        phone: '0533 821 54 66',
+                        address: 'Cyprus',
+                        job: 'Software Developer',
+
+                    }}
+                    onSubmit={values => addNewContact(values)}
+                    validationSchema={newContactSchema}
                 >
-                    {({ handleChange, handleBlur, handleSubmit, values }) => (
+                    {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
                         <View>
-                            <TextInput
+                            <Input
+                                style={styles.Input}
+                                onChangeText={handleChange('name')}
+                                onBlur={handleBlur('name')}
+                                value={values.name}
+                                size='medium'
+                                placeholder='Name'
+                                label='Name'
+                                caption={errors.name}
+                                status={errors.name ? 'danger' : 'success'}
+                            />
+
+
+                            <Input
+                                style={styles.Input}
+                                onChangeText={handleChange('surname')}
+                                onBlur={handleBlur('surname')}
+                                value={values.surname}
+                                size='medium'
+                                placeholder='Surname'
+                                label='Surname'
+                                caption={errors.surname}
+                                status={errors.surname ? 'danger' : 'success'}
+                            />
+
+
+                            <Input
+                                style={styles.Input}
                                 onChangeText={handleChange('email')}
                                 onBlur={handleBlur('email')}
                                 value={values.email}
+                                size='medium'
+                                placeholder='email'
+                                label='Email'
+                                caption={errors.email}
+                                status={errors.email ? 'danger' : 'success'}
                             />
-                            <Button onPress={handleSubmit} title="Submit" />
+
+
+                            <Input
+                                style={styles.Input}
+                                onChangeText={handleChange('phone')}
+                                onBlur={handleBlur('phone')}
+                                value={values.phone}
+                                size='medium'
+                                placeholder='Phone'
+                                label='Phone'
+                                caption={errors.phone}
+                                status={errors.phone ? 'danger' : 'success'}
+                            />
+
+
+                            <Input
+                                style={styles.Input}
+                                onChangeText={handleChange('address')}
+                                onBlur={handleBlur('address')}
+                                value={values.address}
+                                size='medium'
+                                placeholder='Address'
+                                label='Address'
+                                caption={errors.address}
+                                status={errors.address ? 'danger' : 'success'}
+                            />
+
+                            <Input
+                                style={styles.Input}
+                                onChangeText={handleChange('job')}
+                                onBlur={handleBlur('job')}
+                                value={values.job}
+                                size='medium'
+                                placeholder='Job'
+                                label='Job'
+                                caption={errors.job}
+                                status={errors.job ? 'danger' : 'success'}
+                            />
+                            <Button
+                                onPress={handleSubmit}
+                                style={styles.button}
+                                appearance='outline'
+                                status='danger'
+                            >
+                                SAVE
+                            </Button>
                         </View>
                     )}
                 </Formik>
@@ -30,4 +144,10 @@ const AddContact = () => {
 
 export default AddContact
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+
+    Input: {
+        marginVertical: 10
+    },
+    button: {}
+})
